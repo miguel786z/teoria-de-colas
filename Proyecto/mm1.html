@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema M/M/1 - Procedimiento Detallado</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+    <script src="js/script.js"></script>
+</head>
+<body>
+    <h1>Modelo de Colas M/M/1</h1>
+
+    <!-- Contenedor para Modelo M/M/1 -->
+    <div class="container" id="mm1">
+        <div class="form-group">
+            <label for="lamda">Número promedio de llegadas por hora (λ):</label>
+            <input type="number" id="lamda" placeholder="Ingresa el valor de λ">
+        </div>
+        <div class="form-group">
+            <label for="mu">Número promedio de servicios por hora (μ):</label>
+            <input type="number" id="mu" placeholder="Ingresa el valor de μ">
+        </div>
+        <button class="btn" onclick="calcularMM1()">Calcular Sistema M/M/1</button>
+        <button class="btn" onclick="reiniciarPagina()">Limpiar</button>
+        <div class="ayuda-container">
+            <button class="btn" onclick="Ayuda()">Ayuda</button>
+        </div>
+        <div class="volver-container">
+            <button class="btn2 volver-btn" onclick="volver()">Volver</button>
+        </div>
+        <div class="result" id="resultado"></div>
+        <div class="procedure" id="procedimiento"></div>
+        <div class="error" id="error"></div>
+    </div>
+
+
+    <!-- Contenedor de ayuda -->
+    <div id="ayuda-tab" class="ayuda-tab" style="display:none;">
+        <h2>Instrucciones de uso</h2>
+        <p>1. Ingresa el número promedio de llegadas por hora (λ) en el primer campo.</p>
+        <p>2. Ingresa el número promedio de servicios por hora (μ) en el segundo campo.</p>
+        <p>3. Haz clic en "Calcular Sistema M/M/1" para obtener los resultados.</p>
+        <p>4. Para limpiar los campos y empezar de nuevo, haz clic en "Limpiar".</p>
+        <h2>Nota:</h2>
+        <p>Asegúrate de que λ sea menor que μ y que los valores no sean negativos para evitar errores en los cálculos.</p>
+        <div class="ayuda-container">
+            <button class="btn" onclick="cerrarAyuda()">Cerrar</button>
+        </div>
+    </div>
+   
+</body>
+</html>
+

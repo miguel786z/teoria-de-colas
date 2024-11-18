@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Teoría de Colas</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('https://unicit.edu.ni/wp-content/uploads/2013/06/Industrial.jpg');
+            background-color: #f4f7f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c5376;
+            font-size: 3.5em;
+            margin-bottom: 40px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            border: 3px solid #1e3a4f;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .image-box {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            width: 250px;
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+            border: 4px solid #2c5376; /* Borde del cuadro */
+        }
+
+        .image-box:first-child {
+            background-image: url('https://dominiomundial.com/wp-content/uploads/2015/07/estudiar-matematicas.jpg');
+        }
+
+        .image-box:nth-child(2) {
+            background-image: url('https://toptutores.com/wp-content/uploads/2020/09/math.jpg'); /* Imagen del segundo cuadro */
+        }
+
+        .image-box:nth-child(3) {
+            background-image: url('http://thumbs.dreamstime.com/z/vector-de-la-matem%C3%A1ticas-10445074.jpg'); /* Imagen del tercer cuadro */
+        }
+
+        .image-box:hover {
+            transform: scale(1.05);
+        }
+
+        .button-container {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .button-container a {
+            display: inline-block;
+            padding: 12px 24px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background-color: #4e7c99;
+            border: 2px solid #2c5376;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .button-container a:hover {
+            background-color: #3a5b74;
+            border-color: #2a4058;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculadora de Teoría de Colas</h1>
+    <div class="image-container">
+        <div class="image-box">
+            <div class="button-container">
+                <a href="mm1.html" target="_blank">M/M/1</a>
+            </div>
+        </div>
+        <div class="image-box">
+            <div class="button-container">
+                <a href="mmc.html" target="_blank">M/M/C</a>
+            </div>
+        </div>
+        <div class="image-box">
+            <div class="button-container">
+                <a href="mmck.html" target="_blank">M/M/C/k</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

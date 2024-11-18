@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora M/M/c</title>
+    <!-- MathJax CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$','$'], ['\\(','\\)']],
+                processEscapes: true
+            }
+        });
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://toptutores.com/wp-content/uploads/2020/09/math.jpg');
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 800px;
+            max-width: 95%;
+        }
+        .tab2 {
+            padding: 10px 20px;
+            margin: 0 5px;
+            cursor: pointer;
+            background-color: #ddd;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .ayuda-tab2 {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 80px 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        transform: translate(-50%, -50%);
+       }
+        .ayuda-container2 {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #4A4A4A;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            color: #4A4A4A;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 96%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn2 {
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
+            margin-top: 20px;
+        }
+
+        .ayuda-container .btn {
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100px;
+        }
+    
+        .btn2:hover {
+            background-color: #166fe5;
+        }
+        .calculate-btn {
+            background-color: #6c5ce7;
+            color: white;
+        }
+        .clear-btn {
+            background-color: #bdc3c7;
+            color: white;
+        }
+        .results {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+        .results p {
+            margin: 5px 0;
+        }
+        .formulas {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        .formula-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .formula-item:last-child {
+            border-bottom: none;
+        }
+        .formula-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #4A4A4A;
+        }
+
+        .volver-container {
+        position: absolute; /* Cambia a relative si quieres ajustarlo dentro de un contenedor específico */
+        top: 20px;         /* Cambia la posición vertical del botón */
+        left: 60px;        /* Cambia la posición horizontal del botón */
+        z-index: 100;      /* Asegura que el botón esté visible por encima de otros elementos */
+    }
+
+    /* Botón "Volver" personalizado */
+    .volver-btn {
+        background-color: #454fa5; /* Color rojo para destacar */
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .volver-btn:hover {
+        background-color: none; /* Color más oscuro al pasar el mouse */
+    }
+         
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Modelo de Colas M/M/c</h2>
+
+        <div class="input-group">
+            <label for="lambda">Número promedio de llegadas por hora (λ):</label>
+            <input type="number" id="lambda" placeholder="Ingresa el valor de λ">
+        </div>
+
+        <div class="input-group">
+            <label for="mu">Número promedio de servicios por hora (μ):</label>
+            <input type="number" id="mu" placeholder="Ingresa el valor de μ">
+        </div>
+
+        <div class="input-group">
+            <label for="servers">Número de servidores (c):</label>
+            <input type="number" id="servers" placeholder="Ingresa el número de servidores">
+        </div>
+
+        <button class="calculate-btn" onclick="calculateMMC()">Calcular Sistema M/M/c</button>
+        <button class="clear-btn" onclick="clearFields()">Limpiar</button>
+        
+        <div class="ayuda-container2">
+            <button class="btn2" onclick="Ayuda2()">Ayuda</button>
+        </div>
+        <div class="volver-container">
+            <button class="btn2 volver-btn" onclick="volver()">Volver</button>
+        </div>
+
+        <div id="ayuda-tab2" class="ayuda-tab2" style="display:none;">
+            <h2>Instrucciones de uso</h2>
+            <p>1. Ingresa el número promedio de llegadas por hora (λ) en el primer campo.</p>
+            <p>2. Ingresa el número promedio de servicios por hora (μ) en el segundo campo.</p>
+            <p>3. Ingresa el número de servidores (c) en el tercer campo.</p>
+            <p>4. Haz clic en "Calcular Sistema M/M/c" para obtener los resultados.</p>
+            <p>5. Para limpiar los campos y empezar de nuevo, haz clic en "Limpiar".</p>
+            <h2>Nota:</h2>
+            <p>Asegúrate de que λ sea menor que c*μ y que los valores no sean negativos para evitar errores en los cálculos.</p>
+            <div class="ayuda-container2">
+                <button class="btn2" onclick="cerrarAyuda2()">Cerrar</button>
+            </div>
+        </div>
+
+        <div id="results" class="results" style="display: none;">
+            <h3>Resultados:</h3>
+            <p id="p"></p>
+            <p id="p0"></p>
+            <p id="lq"></p>
+            <p id="ls"></p>
+            <p id="wq"></p>
+            <p id="ws"></p>
+            <p id="pw"></p>
+            <p id="rho"></p>
+            <p id="pnResults"></p>
+        </div>
+
+        <div class="formulas">
+            <h3>Fórmulas Utilizadas:</h3>
+            <div class="formula-item">
+                <div class="formula-title">Probabilidad de que no haya clientes en el sistema (P₀):</div>
+                \[P_0 = \frac{1}{\sum_{k=0}^{c-1}\frac{\rho^k}{k!} + \frac{\rho^c}{c!}\frac{1}{1-\rho}}\]
+            </div>
+            <div class="formula-item">
+                <div class="formula-title">Número promedio en la fila (Lq):</div>
+                \[L_q = \frac{P_0(λ/μ)^c\rho}{c!(1-\rho)^2}\]
+            </div>
+            <div class="formula-item">
+                <div class="formula-title">Número promedio en el sistema (L):</div>
+                \[L = L_q + \frac{λ}{μ}\]
+            </div>
+            <div class="formula-item">
+                <div class="formula-title">Tiempo promedio de espera en la cola (Wq):</div>
+                \[W_q = \frac{L_q}{λ}\]
+            </div>
+            <div class="formula-item">
+                <div class="formula-title">Tiempo promedio de espera en el sistema (W):</div>
+                \[W = W_q + \frac{1}{μ}\]
+            </div>
+            <div class="formula-item">
+                <div class="formula-title">Probabilidad de que un cliente tenga que esperar (Pw):</div>
+                \[P_w = \frac{P_0(λ/μ)^c}{c!(1-\rho)}\]
+            </div>
+            <div class="formula-item">
+                <div class="formula-title">Utilización del sistema (ρ):</div>
+                \[\rho = \frac{λ}{cμ}\]
+            </div>
+        </div>
+    </div>
+
+    <script>
+function calculateMMC() {
+    const lambda = parseFloat(document.getElementById('lambda').value);
+    const mu = parseFloat(document.getElementById('mu').value);
+    const servers = parseInt(document.getElementById('servers').value);
+
+    if (lambda <= 0 || mu <= 0 || servers <= 0) {
+        alert('Por favor ingrese valores positivos');
+        return;
+    }
+
+    const rho = lambda / (servers * mu);
+
+    if (rho >= 1) {
+        alert('El sistema es inestable (ρ ≥ 1). Los valores de λ deben ser menores que c*μ');
+        return;
+    }
+
+    let sum = 0;
+    for (let n = 0; n < servers; n++) {
+        sum += Math.pow(lambda / mu, n) / factorial(n);
+    }
+
+    const p0 = 1 / (sum + (Math.pow(lambda / mu, servers) / factorial(servers)) * (1 / (1 - rho)));
+    const lq = (p0 * Math.pow(lambda / mu, servers) * rho) / (factorial(servers) * Math.pow(1 - rho, 2));
+    const ls = lq + lambda / mu;
+    const wq = lq / lambda;
+    const ws = ls / lambda;
+    const p = lambda / mu;
+    const pw = (p0 * Math.pow(lambda / mu, servers)) / factorial(servers) * rho / (1 - rho);
+
+    // Cálculo correcto de Pn (ajustado según la fórmula proporcionada)
+    let pnResults = '';
+    pnResults += '<span class="normal-text">Probabilidad de que hay n clientes en el sistema (Pn)</span><br>';
+
+    for (let n = 0; n <= 4; n++) {
+        let Pn;
+        if (n < servers) {
+            Pn = (Math.pow(lambda / mu, n) / factorial(n)) * p0;
+        } else {
+            Pn = (Math.pow(lambda / mu, n) / (factorial(servers) * Math.pow(servers, n - servers))) * p0;
+        }
+        pnResults += `<p>P${n}: ${Pn.toFixed(4)}</p>`;
+    }
+
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('p').textContent = `Cociente de λ sobre μ (p): ${p.toFixed(4)}`;
+    document.getElementById('pw').textContent = `Probabilidad de que un cliente tenga que esperar (Pw): ${pw.toFixed(4)}`;
+    document.getElementById('rho').textContent = `Utilización del sistema (ρ): ${rho.toFixed(4)}`;
+    document.getElementById('p0').textContent = `Probabilidad de que no hayan clientes en el sistema (P₀): ${p0.toFixed(4)}`;
+    document.getElementById('lq').textContent = `Número promedio en la fila (Lq): ${lq.toFixed(4)}`;
+    document.getElementById('ls').textContent = `Número promedio en el sistema (L): ${ls.toFixed(4)}`;
+    document.getElementById('wq').textContent = `Tiempo promedio de espera en la cola (Wq): ${wq.toFixed(4)} horas`;
+    document.getElementById('ws').textContent = `Tiempo promedio de espera en el sistema (W): ${ws.toFixed(4)} horas`;
+
+    // Mostrar P_n
+    document.getElementById('pnResults').innerHTML = pnResults;
+    
+    // Refrescar MathJax después de mostrar los resultados
+    if (window.MathJax) {
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
+}
+
+        function clearFields() {
+            document.getElementById('lambda').value = '';
+            document.getElementById('mu').value = '';
+            document.getElementById('servers').value = '';
+            document.getElementById('results').style.display = 'none';
+        }
+
+        function Ayuda2() {
+            document.getElementById('ayuda-tab2').style.display = 'block';
+        }
+
+        function cerrarAyuda2() {
+            document.getElementById('ayuda-tab2').style.display = 'none';
+        }
+
+        function volver() {
+        // Redirigir a la página anterior en el historial
+        if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            // Redirigir a una URL específica si no hay historial
+            window.location.href = 'index.html'; // Cambia 'index.html' por la URL deseada
+        }
+    }
+        function factorial(n) {
+            if (n === 0) return 1;
+            let result = 1;
+            for (let i = 1; i <= n; i++) {
+                result *= i;
+            }
+            return result;
+        }
+
+        // Inicializar MathJax después de que la página cargue
+        window.onload = function() {
+            if (window.MathJax) {
+                MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+            }
+        };
+    </script>
+</body>
+</html>
+
+

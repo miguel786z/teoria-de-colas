@@ -1,0 +1,146 @@
+body {
+    font-family: Arial, sans-serif;
+    
+    background-size: cover;background-image: url('https://dominiomundial.com/wp-content/uploads/2015/07/estudiar-matematicas.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 20px;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #07090b;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px #fff, -2px -2px 4px #fff, 2px -2px 4px #fff, -2px 2px 4px #fff;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ayuda-container {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.ayuda-container .btn {
+    background-color: #1877f2;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100px;
+}
+
+.ayuda-tab {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 80px 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transform: translate(-50%, -50%);
+}
+
+.ayuda-container .btn:hover {
+    background-color: #166fe5;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 97%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.btn {
+    background-color: #1877f2;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+.btn:hover {
+    background-color: #166fe5;
+}
+
+.result, .procedure {
+    margin-top: 20px;
+    font-size: 1em;
+    color: #333;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.error {
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.tab-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tab {
+    padding: 10px 20px;
+    margin: 0 5px;
+    cursor: pointer;
+    background-color: #ddd;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+.tab.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.volver-container {
+    position: absolute; /* Cambia a relative si quieres ajustarlo dentro de un contenedor específico */
+    top: 20px;         /* Cambia la posición vertical del botón */
+    left: 20px;        /* Cambia la posición horizontal del botón */
+    z-index: 100;      /* Asegura que el botón esté visible por encima de otros elementos */
+}
+
+/* Botón "Volver" personalizado */
+.volver-btn {
+    background-color: #007bff; /* Color rojo para destacar */
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.volver-btn:hover {
+    background-color: none; /* Color más oscuro al pasar el mouse */
+}
+

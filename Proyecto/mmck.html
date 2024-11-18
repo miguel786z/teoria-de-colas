@@ -1,0 +1,428 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculadora de Sistema de Colas M/M/K</title>
+    <meta charset="UTF-8">
+    <style>
+        
+        body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background-size: cover;background-image: url('http://thumbs.dreamstime.com/z/vector-de-la-matem%C3%A1ticas-10445074.jpg');
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    line-height: 1.6;
+}
+
+h1 {
+    text-align: center;
+    color: #07090b;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px #fff, -2px -2px 4px #fff, 2px -2px 4px #fff, -2px 2px 4px #fff;
+}
+
+.calculator-container {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 500;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+input:focus {
+    outline: none;
+    border-color: #1a73e8;
+}
+
+.button-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: 500;
+}
+
+#calculateButton {
+    background-color: #1a73e8;
+    color: white;
+}
+
+#calculateButton:hover {
+    background-color: #1557b0;
+}
+
+#clearButton {
+    background-color: #f1f3f4;
+    color: #1a73e8;
+}
+
+#clearButton:hover {
+    background-color: #e8eaed;
+}
+
+#error {
+    display: none;
+    color: #d93025;
+    padding: 12px;
+    background-color: #fce8e6;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+#results {
+    display: none;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid #f1f3f4;
+}
+
+.result-item {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    padding: 8px 0;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.result-label {
+    color: #5f6368;
+}
+
+.result-value {
+    text-align: right;
+    font-weight: 500;
+    color: #1a73e8;
+}
+
+.ayuda-btn {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    background-color: #3b82f6;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.ayuda-btn:hover {
+    background-color: #2563eb;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-contenido {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.cerrar {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cerrar:hover {
+    color: black;
+}
+
+.volver-container {
+        position: absolute; /* Cambia a relative si quieres ajustarlo dentro de un contenedor específico */
+        top: 20px;         /* Cambia la posición vertical del botón */
+        left: 20px;        /* Cambia la posición horizontal del botón */
+        z-index: 100;      /* Asegura que el botón esté visible por encima de otros elementos */
+    }
+
+    /* Botón "Volver" personalizado */
+    .volver-btn {
+        background-color: #3b82f6; /* Color rojo para destacar */
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .volver-btn:hover {
+        background-color: none; /* Color más oscuro al pasar el mouse */
+    }
+
+    </style>
+</head>
+<body>
+    <h1>Calculadora de Sistema de Colas M/M/K</h1>
+    
+    <div class="calculator-container">
+        <div class="input-group">
+            <label>Tasa de llegadas por hora (λ):</label>
+            <input type="number" id="lambda" step="0.01" min="0" placeholder="Ingrese el valor de λ">
+        </div>
+
+        <div class="input-group">
+            <label>Tasa de servicio por hora (μ):</label>
+            <input type="number" id="mu" step="0.01" min="0" placeholder="Ingrese el valor de μ">
+        </div>
+
+        <div class="input-group">
+            <label>Número de servidores (K):</label>
+            <input type="number" id="k" min="1" placeholder="Ingrese el valor de K">
+        </div>
+
+        <div class="input-group">
+            <label>Número de clientes (N):</label>
+            <input type="number" id="nClients" min="1" placeholder="Ingrese el número de clientes">
+        </div>
+
+        <div class="button-group">
+            <button id="calculateButton" onclick="calculate()">Calcular</button>
+            <button id="clearButton" onclick="clearInputs()">Limpiar</button>
+            <button id="ayudaBtn" class="ayuda-btn" onclick="mostrarAyuda()">Ayuda</button>
+        </div>
+        <div class="volver-container">
+            <button class="btn2 volver-btn" onclick="volver()">Volver</button>
+        </div>
+
+        <div id="error"></div>
+
+        <div id="results">
+            <div class="result-item">
+                <div class="result-label">Factor de utilización (ρ)</div>
+                <div class="result-value" id="rho"></div>
+            </div>
+            <div class="result-item">
+                <div class="result-label">Probabilidad de que no haya n clientes en el sistema (P₀)</div>
+                <div class="result-value" id="p0"></div>
+            </div>
+            <div class="result-item">
+                <div class="result-label">Promedio de clientes que esperan en el sistema (Lq)</div>
+                <div class="result-value" id="lq"></div>
+            </div>
+            <div class="result-item">
+                <div class="result-label">Promedio de clientes en el sistema (L)</div>
+                <div class="result-value" id="l"></div>
+            </div>
+            <div class="result-item">
+                <div class="result-label">Tiempo de espera promedio que un cliente pasa en la cola (Wq)</div>
+                <div class="result-value" id="wq"></div>
+            </div>
+            <div class="result-item">
+                <div class="result-label">Tiempo promedio que un cliente pasa en el sistema (W)</div>
+                <div class="result-value" id="w"></div>
+            </div>
+            <div class="result-item">
+                <div class="result-label">Probabilidad de espera (Pw)</div>
+                <div class="result-value" id="pw"></div>
+            </div>
+            <div id="pnResults"></div>
+        </div>
+    </div><div id="modalAyuda" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar" onclick="cerrarAyuda()">&times;</span>
+            <h2>Instrucciones de uso</h2>
+            <ol>
+                <li>Ingresa el número promedio de llegadas por hora (λ) en el primer campo.</li>
+                <li>Ingresa el número promedio de servicios por hora (μ) en el segundo campo.</li>
+                <li>Ingresa el número de servidores (c) en el tercer campo.</li>
+                <li>Haz clic en "Calcular Sistema M/M/c" para obtener los resultados.</li>
+                <li>Para limpiar los campos y empezar de nuevo, haz clic en "Limpiar".</li>
+            </ol>
+            <p><strong>Nota:</strong><br>
+            Asegúrate de que λ sea menor que c*μ y que los valores no sean negativos para evitar errores en los cálculos.</p>
+        </div>
+    </div>
+
+
+
+    <script>
+        function factorial(n) {
+            if (n === 0 || n === 1) return 1;
+            let result = 1;
+            for (let i = 2; i <= n; i++) result *= i;
+            return result;
+        }
+
+        function calculateP0(lambda, mu, k) {
+            let sum = 0;
+            for (let n = 0; n < k; n++) {
+                sum += Math.pow(lambda / mu, n) / factorial(n);
+            }
+            const rho = lambda / (k * mu);
+            sum += (Math.pow(lambda / mu, k) / factorial(k)) * (1 / (1 - rho));
+            return 1 / sum;
+        }
+
+        function calculatePn(lambda, mu, k, n, P0) {
+            if (n < k) {
+                return (Math.pow(lambda / mu, n) / factorial(n)) * P0;
+            } else {
+                return (Math.pow(lambda / mu, n) / (factorial(k) * Math.pow(k, n - k))) * P0;
+            }
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+        }
+
+        function formatNumber(value, decimals = 2) {
+            return new Intl.NumberFormat('es-ES', {
+                minimumFractionDigits: decimals,
+                maximumFractionDigits: decimals
+            }).format(value);
+        }
+
+        function clearInputs() {
+            document.getElementById('lambda').value = '';
+            document.getElementById('mu').value = '';
+            document.getElementById('k').value = '';
+            document.getElementById('nClients').value = '';
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('results').style.display = 'none';
+        }
+
+        function calculate() {
+            const lambda = parseFloat(document.getElementById('lambda').value);
+            const mu = parseFloat(document.getElementById('mu').value);
+            const k = parseInt(document.getElementById('k').value);
+            const nClients = parseInt(document.getElementById('nClients').value);
+
+            if (isNaN(lambda) || isNaN(mu) || isNaN(k) || isNaN(nClients)) {
+                showError('Por favor complete todos los campos');
+                return;
+            }
+
+            if (lambda <= 0 || mu <= 0 || k <= 0 || nClients <= 0) {
+                showError('Las tasas de llegada (λ), servicio (μ) y el número de servidores (K) deben ser valores positivo');
+                return;
+            }
+
+            const rho = lambda / (k * mu);
+            
+            if (rho >= 1) {
+                showError('El sistema es inestable. La tasa de llegada debe ser menor que la tasa de servicio total (λ < kμ)');
+                return;
+            }
+
+            document.getElementById('error').style.display = 'none';
+
+            const P0 = calculateP0(lambda, mu, k);
+            const Lq = (P0 * Math.pow(lambda / mu, k) * rho) / (factorial(k) * Math.pow(1 - rho, 2));
+            const L = Lq + (lambda / mu);
+            const Wq = Lq / lambda;
+            const W = Wq + (1 / mu);
+            const Pw = (P0 * Math.pow(lambda/mu, k)) / (factorial(k) * (1 - rho));
+
+            document.getElementById('rho').textContent = formatNumber(rho * 100) + '%';
+            document.getElementById('p0').textContent = formatNumber(P0);
+            document.getElementById('lq').textContent = formatNumber(Lq) + ' clientes';
+            document.getElementById('l').textContent = formatNumber(L) + ' clientes';
+            document.getElementById('wq').textContent = formatNumber(Wq * 60) + ' minutos';
+            document.getElementById('w').textContent = formatNumber(W * 60) + ' minutos';
+            document.getElementById('pw').textContent = formatNumber(Pw);
+
+            const pnResultsDiv = document.getElementById('pnResults');
+            pnResultsDiv.innerHTML = `<h3>Probabilidad de que haya  𝑛 clientes en el sistema</h3>`;
+            for (let n = 0; n <= nClients; n++) {
+                const Pn = calculatePn(lambda, mu, k, n, P0);
+                pnResultsDiv.innerHTML += `
+                    <div class="result-item">
+                        <div class="result-label">P(${n})</div>
+                        <div class="result-value">${formatNumber(Pn * 100)}%</div>
+                    </div>
+                `;
+            }
+
+            document.getElementById('results').style.display = 'block';
+            }
+
+        function mostrarAyuda() {
+            document.getElementById('modalAyuda').style.display = 'block';
+            }
+
+        function cerrarAyuda() {
+            document.getElementById('modalAyuda').style.display = 'none';
+            }
+
+            function volver() {
+        // Redirigir a la página anterior en el historial
+        if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            // Redirigir a una URL específica si no hay historial
+            window.location.href = 'index.html'; // Cambia 'index.html' por la URL deseada
+        }
+    }
+
+            // Cerrar el modal si se hace clic fuera de él
+            window.onclick = function(event) {
+            var modal = document.getElementById('modalAyuda');
+            if (event.target == modal) {
+            modal.style.display = 'none';
+            }
+        }
+         
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
